@@ -1,17 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package banker;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.LinkedHashSet;
-import java.util.Set;
 
 /**
  *
@@ -20,20 +13,21 @@ import java.util.Set;
 public class Banker {
 
     int nP = 0, count = 0, rT = 0, temp = 0;
-    //Table
+    //============================ Table =====================================//
     ArrayList<Integer> allocation = new ArrayList<>();
     ArrayList<Integer> max = new ArrayList<>();
     ArrayList<String> data = new ArrayList<>();
     ArrayList<Integer> need = new ArrayList<>();
-    //Total Allocation
+    //============================ Total Allocation ==========================//
     ArrayList<Integer> total = new ArrayList<>();
-    //Starting Resources
+    //============================ Starting Resources ========================//
     ArrayList<Integer> startR = new ArrayList<>();
-    //Net Resource -> Total Allocation - Starting Resources
+    //============================ Total Allocation - Starting Resources =====//
     ArrayList<Integer> netR = new ArrayList<>();
-    //Sequence for Process
+    //============================ Sequence for Process ======================//
     ArrayList<String> sequence = new ArrayList<>();
 
+    //============================ Parsing The File ==========================//
     public void readFile() {
         try {
             File file = new File("input.txt");
@@ -93,6 +87,7 @@ public class Banker {
         }
     }
 
+    //============================ Initial Allocated Added ===================//
     public void calcInitialAlloc() {
         int sum = 0;
         for (int k = 0; k < rT; k++) {
@@ -104,13 +99,14 @@ public class Banker {
         }
     }
 
+    //============================ Initial Net Resoruces =====================//
     public void calcNetR() {
         for (int i = 0; i < rT; i++) {
             netR.add(startR.get(i) - total.get(i));
         }
     }
-    
-    
+
+    //============================ Calculate Need ============================//
     public void calcNeed() {
         for (int i = 0; i < max.size() && i < allocation.size(); i++) {
             int x = max.get(i);
@@ -123,6 +119,7 @@ public class Banker {
         }
     }
 
+    //============================ Try Parsing Resource ======================//
     boolean tryParseResource(String value) {
         try {
             int temp = Integer.parseInt(value);
@@ -135,8 +132,9 @@ public class Banker {
             return false;
         }
     }
-    
-        boolean tryParseProcess(String value) {
+
+    //============================ Try Parsing Process =======================//
+    boolean tryParseProcess(String value) {
         try {
             int temp = Integer.parseInt(value);
             if (temp > 0 && temp <= 10) {
@@ -149,6 +147,7 @@ public class Banker {
         }
     }
 
+    //============================ Printing Results ==========================//
     public void display() {
         System.out.print("Max  : ");
         for (int i = 0; i < max.size(); i++) {
@@ -182,7 +181,7 @@ public class Banker {
         System.out.println("");
 
         System.out.println("");
-        sequence = new ArrayList<String>(new LinkedHashSet<String>(sequence));
+        sequence = new ArrayList<>(new LinkedHashSet<>(sequence));
         if (sequence.size() == nP) {
             System.out.println("Sequence Found!");
             for (int i = 0; i < sequence.size(); i++) {
@@ -192,10 +191,12 @@ public class Banker {
             System.out.println("No Safe Sequence!");
         }
         System.out.println("");
+        System.out.println("Coded By Muhammad Ali");
     }
     Boolean add = true;
     int process = 0;
 
+    //============================ Main Algorithm ============================//
     public void algorithm() {
         for (int j = 0; j < nP; j++) {
             for (int x = 0; x < nP * rT; x += rT) {
@@ -223,9 +224,9 @@ public class Banker {
             }
             process = 0;
         }
-
     }
 
+    //============================ Main Method ===============================//
     public static void main(String[] args) {
         Banker b = new Banker();
         b.readFile();
@@ -235,5 +236,4 @@ public class Banker {
         b.algorithm();
         b.display();
     }
-
 }
